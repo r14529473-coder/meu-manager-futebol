@@ -5,28 +5,31 @@
     <title>Global Football Manager 2026</title>
     <style>
         body { font-family: 'Arial', sans-serif; background: #0f172a; color: white; text-align: center; padding: 20px; }
-        select, button { padding: 12px; margin: 10px; border-radius: 8px; border: none; font-size: 16px; }
+        select, button { padding: 12px; margin: 10px; border-radius: 8px; border: none; font-size: 16px; width: 80%; }
         button { background: #2563eb; color: white; cursor: pointer; }
-        #info { margin-top: 20px; font-size: 20px; color: #fbbf24; }
+        #areaJogo { display: none; margin-top: 30px; border-top: 1px solid #334155; padding-top: 20px; }
+        #placar { font-size: 40px; margin: 20px; font-weight: bold; color: #fbbf24; }
     </style>
 </head>
 <body>
     <h1>Global Football Manager 2026</h1>
-    <p>Escolha sua Liga e seu Clube:</p>
+    
+    <div id="areaSelecao">
+        <select id="liga" onchange="atualizarTimes()">
+            <option value="">Selecione uma Liga</option>
+            <option value="br">Brasileirao</option>
+            <option value="en">Premier League</option>
+        </select>
+        <select id="time"><option value="">Selecione o Time</option></select>
+        <br>
+        <button onclick="confirmarTime()">CONFIRMAR CLUBE</button>
+    </div>
 
-    <select id="liga" onchange="atualizarTimes()">
-        <option value="">Selecione uma Liga</option>
-        <option value="br">Brasileirao</option>
-        <option value="en">Premier League</option>
-    </select>
-
-    <select id="time">
-        <option value="">Selecione o Time</option>
-    </select>
-
-    <br>
-    <button onclick="confirmarTime()">CONFIRMAR ESCOLHA</button>
-    <div id="info"></div>
+    <div id="areaJogo">
+        <h2 id="tituloClube"></h2>
+        <div id="placar">0 - 0</div>
+        <button onclick="simularPartida()" style="background: #22c55e;">JOGAR PARTIDA</button>
+    </div>
 
     <script>
         const times = {
@@ -38,23 +41,29 @@
             let liga = document.getElementById('liga').value;
             let selectTime = document.getElementById('time');
             selectTime.innerHTML = '<option value="">Selecione o Time</option>';
-            
             if(liga && times[liga]) {
-                times[liga].forEach(t => {
-                    selectTime.innerHTML += `<option value="${t}">${t}</option>`;
-                });
+                times[liga].forEach(t => selectTime.innerHTML += `<option value="${t}">${t}</option>`);
             }
         }
 
         function confirmarTime() {
             let time = document.getElementById('time').value;
             if(time) {
-                document.getElementById('info').innerHTML = "Você agora é o treinador do: <b>" + time + "</b>";
+                document.getElementById('tituloClube').innerText = "Seu time: " + time;
+                document.getElementById('areaSelecao').style.display = 'none';
+                document.getElementById('areaJogo').style.display = 'block';
             } else {
-                alert("Escolha uma liga e um time!");
+                alert("Escolha uma liga e um time primeiro!");
             }
+        }
+
+        function simularPartida() {
+            let golsCasa = Math.floor(Math.random() * 5);
+            let golsFora = Math.floor(Math.random() * 5);
+            document.getElementById('placar').innerHTML = golsCasa + " - " + golsFora;
         }
     </script>
 </body>
 </html>
+
 
