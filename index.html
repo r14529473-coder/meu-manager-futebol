@@ -2,65 +2,46 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Global Football Manager 2026</title>
+    <title>Global Football Manager PRO</title>
     <style>
-        body { font-family: 'Arial', sans-serif; background: #0f172a; color: white; text-align: center; padding: 20px; }
-        select, button { padding: 12px; margin: 10px; border-radius: 8px; border: none; font-size: 16px; width: 80%; }
-        button { background: #2563eb; color: white; cursor: pointer; }
-        #areaJogo { display: none; margin-top: 30px; border-top: 1px solid #334155; padding-top: 20px; }
-        #placar { font-size: 40px; margin: 20px; font-weight: bold; color: #fbbf24; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; text-align: center; padding: 10px; }
+        .card { background: #1e293b; padding: 20px; border-radius: 15px; margin: 10px; }
+        button { background: #3b82f6; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
+        .placar { font-size: 32px; font-weight: bold; color: #fbbf24; margin: 10px 0; }
     </style>
 </head>
 <body>
-    <h1>Global Football Manager 2026</h1>
-    
-    <div id="areaSelecao">
-        <select id="liga" onchange="atualizarTimes()">
-            <option value="">Selecione uma Liga</option>
-            <option value="br">Brasileirao</option>
-            <option value="en">Premier League</option>
-        </select>
-        <select id="time"><option value="">Selecione o Time</option></select>
-        <br>
-        <button onclick="confirmarTime()">CONFIRMAR CLUBE</button>
+    <div class="card">
+        <h1>Global Football Manager 2026</h1>
+        <input type="text" id="nomeTime" placeholder="Nome do seu Time" style="padding:10px; width:80%;">
+        <button onclick="iniciar()">INICIAR CARREIRA</button>
     </div>
 
-    <div id="areaJogo">
-        <h2 id="tituloClube"></h2>
-        <div id="placar">0 - 0</div>
-        <button onclick="simularPartida()" style="background: #22c55e;">JOGAR PARTIDA</button>
+    <div id="jogo" style="display:none;">
+        <div class="card">
+            <h2 id="timeDisplay"></h2>
+            <p>Saldo: <span id="dinheiro">1000</span> Milhões</p>
+        </div>
+        <div class="card">
+            <div class="placar" id="placar">0 - 0</div>
+            <button onclick="jogar()">SIMULAR PARTIDA</button>
+        </div>
     </div>
 
     <script>
-        const times = {
-            br: ["Flamengo", "Palmeiras", "São Paulo", "Corinthians"],
-            en: ["Manchester City", "Liverpool", "Arsenal", "Chelsea"]
-        };
-
-        function atualizarTimes() {
-            let liga = document.getElementById('liga').value;
-            let selectTime = document.getElementById('time');
-            selectTime.innerHTML = '<option value="">Selecione o Time</option>';
-            if(liga && times[liga]) {
-                times[liga].forEach(t => selectTime.innerHTML += `<option value="${t}">${t}</option>`);
-            }
+        let dinheiro = 1000;
+        function iniciar() {
+            let nome = document.getElementById('nomeTime').value;
+            if(!nome) return alert("Dê um nome ao seu time!");
+            document.getElementById('timeDisplay').innerText = nome;
+            document.getElementById('jogo').style.display = 'block';
         }
-
-        function confirmarTime() {
-            let time = document.getElementById('time').value;
-            if(time) {
-                document.getElementById('tituloClube').innerText = "Seu time: " + time;
-                document.getElementById('areaSelecao').style.display = 'none';
-                document.getElementById('areaJogo').style.display = 'block';
-            } else {
-                alert("Escolha uma liga e um time primeiro!");
-            }
-        }
-
-        function simularPartida() {
-            let golsCasa = Math.floor(Math.random() * 5);
-            let golsFora = Math.floor(Math.random() * 5);
-            document.getElementById('placar').innerHTML = golsCasa + " - " + golsFora;
+        function jogar() {
+            let g1 = Math.floor(Math.random() * 4);
+            let g2 = Math.floor(Math.random() * 4);
+            document.getElementById('placar').innerText = g1 + " - " + g2;
+            if(g1 > g2) dinheiro += 50;
+            document.getElementById('dinheiro').innerText = dinheiro;
         }
     </script>
 </body>
