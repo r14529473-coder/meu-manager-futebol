@@ -9,16 +9,22 @@
     </style>
 </head>
 <body>
+
     <div id="app">
         <div id="modulo-selecao"></div>
         <div id="modulo-partida"></div>
     </div>
 
     <script>
-        // O motor principal
+        // O motor principal: armazena os dados do jogo
         const game = {
             time: localStorage.getItem('time') || null,
             dinheiro: parseInt(localStorage.getItem('dinheiro')) || 1000
+        };
+
+        // Função para carregar as peças ao abrir a página
+        window.onload = function() {
+            // Aqui vamos chamar as funções das peças que vamos adicionar
         };
     </script>
 </body>
