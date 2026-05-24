@@ -6,45 +6,65 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #0f172a; color: white; text-align: center; padding: 10px; }
         .card { background: #1e293b; padding: 20px; border-radius: 15px; margin: 10px; }
-        button { background: #3b82f6; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; }
+        button { background: #3b82f6; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: bold; margin-top: 10px; cursor: pointer; }
         .placar { font-size: 32px; font-weight: bold; color: #fbbf24; margin: 10px 0; }
     </style>
 </head>
 <body>
-    <div class="card">
+    <div id="setup" class="card">
         <h1>Global Football Manager 2026</h1>
-        <input type="text" id="nomeTime" placeholder="Nome do seu Time" style="padding:10px; width:80%;">
+        <input type="text" id="nomeTime" placeholder="Nome do seu Time" style="padding:10px; width:80%; border-radius:5px; border:none;">
         <button onclick="iniciar()">INICIAR CARREIRA</button>
     </div>
 
-    <div id="jogo" style="display:none;">
-        <div class="card">
-            <h2 id="timeDisplay"></h2>
-            <p>Saldo: <span id="dinheiro">1000</span> Milhões</p>
-        </div>
-        <div class="card">
-            <div class="placar" id="placar">0 - 0</div>
-            <button onclick="jogar()">SIMULAR PARTIDA</button>
-        </div>
+    <div id="jogo" class="card" style="display:none;">
+        <h2 id="timeDisplay"></h2>
+        <p>Saldo: <span id="dinheiro">1000</span> Milhões</p>
+        <div class="placar" id="placar">0 - 0</div>
+        <button onclick="jogar()">SIMULAR PARTIDA</button>
+        <button onclick="resetar()" style="background:#ef4444; font-size:12px;">RESETAR JOGO</button>
     </div>
 
     <script>
-        let dinheiro = 1000;
+        let dinheiro = parseInt(localStorage.getItem('dinheiro')) || 1000;
+        let nome = localStorage.getItem('nomeTime') || "";
+
+        window.onload = function() {
+            if(nome) {
+                document.getElementById('timeDisplay').innerText = nome;
+                document.getElementById('dinheiro').innerText = dinheiro;
+                document.getElementById('setup').style.display = 'none';
+                document.getElementById('jogo').style.display = 'block';
+            }
+        };
+
         function iniciar() {
-            let nome = document.getElementById('nomeTime').value;
+            nome = document.getElementById('nomeTime').value;
             if(!nome) return alert("Dê um nome ao seu time!");
+            localStorage.setItem('nomeTime', nome);
             document.getElementById('timeDisplay').innerText = nome;
+            document.getElementById('setup').style.display = 'none';
             document.getElementById('jogo').style.display = 'block';
         }
+
         function jogar() {
             let g1 = Math.floor(Math.random() * 4);
             let g2 = Math.floor(Math.random() * 4);
             document.getElementById('placar').innerText = g1 + " - " + g2;
-            if(g1 > g2) dinheiro += 50;
-            document.getElementById('dinheiro').innerText = dinheiro;
+            if(g1 > g2) {
+                dinheiro += 50;
+                localStorage.setItem('dinheiro', dinheiro);
+                document.getElementById('dinheiro').innerText = dinheiro;
+            }
+        }
+
+        function resetar() {
+            localStorage.clear();
+            location.reload();
         }
     </script>
 </body>
 </html>
+
 
 
