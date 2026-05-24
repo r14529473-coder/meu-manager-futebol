@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Global Football Manager 2026</title>
+    <title>Global Football Manager</title>
     <style>
         body { font-family: sans-serif; background: #0f172a; color: white; text-align: center; padding: 20px; }
         .card { background: #1e293b; padding: 20px; border-radius: 15px; margin: 10px; }
@@ -11,22 +11,14 @@
 <body>
 
     <div id="app">
-        <div id="modulo-selecao"></div>
-        <div id="modulo-partida"></div>
+        <div id="modulo-selecao" class="card">
+            <h3>Esqueleto Carregado</h3>
+            <p>Se você está vendo isso, o chassi está funcionando!</p>
+        </div>
     </div>
 
     <script>
-        // O motor principal: armazena os dados do jogo
-        const game = {
-            time: localStorage.getItem('time') || null,
-            dinheiro: parseInt(localStorage.getItem('dinheiro')) || 1000
-        };
-
-        // Função para carregar as peças ao abrir a página
-        window.onload = function() {
-            // Aqui vamos chamar as funções das peças que vamos adicionar
-        };
+        console.log("Sistema pronto para peças.");
     </script>
 </body>
 </html>
-
